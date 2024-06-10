@@ -30,7 +30,7 @@ This is a lua script plugin for wireshark that can dissect the packets defined h
 
 ## How do I install it?
 
-Copy the `.lua` script and paste it into the folder, following the instructions in the "installation" section: https://www.quantulum.co.uk/blog/tldr-wireshark-udp-dissector/
+Copy the `118_protocol.lua` script and paste it into the folder, following the instructions in the "installation" section: https://www.quantulum.co.uk/blog/tldr-wireshark-udp-dissector/
 
 - Open Wireshark
 - Open "About Wireshark" dialog
@@ -76,7 +76,42 @@ The resulting UI should look something like this:
 
 ### Auto Grader
 
-You can do the same thing in the auto-grader docker container. You'll need to use `tmux` to open multiple terminals. Make sure you output your capture files to a folder mounted from outside the docker container. 
+You can do the same thing in the auto-grader docker container. 
+
+Make sure to run the following before capturing packets:
+
+```
+apt install tcpdump
+apt install tmux
+```
+
+You'll need to use `tmux` to open multiple terminals. Make sure you output your capture files to a folder mounted from outside the docker container. 
+
+![demo](sample_cap.png)
+
+Since the autograder uses a range of ports for its tests, past the following into the `lua` script, and then type `ctrl-shift-l` to refresh it. 
+
+```
+udp_port:add(8081, simple_protocol)
+udp_port:add(8082, simple_protocol)
+udp_port:add(8083, simple_protocol)
+udp_port:add(8084, simple_protocol)
+udp_port:add(8085, simple_protocol)
+udp_port:add(8086, simple_protocol)
+udp_port:add(8087, simple_protocol)
+udp_port:add(8088, simple_protocol)
+udp_port:add(8089, simple_protocol)
+udp_port:add(8090, simple_protocol)
+udp_port:add(8091, simple_protocol)
+udp_port:add(8092, simple_protocol)
+udp_port:add(8093, simple_protocol)
+udp_port:add(8094, simple_protocol)
+udp_port:add(8095, simple_protocol)
+udp_port:add(8096, simple_protocol)
+udp_port:add(8097, simple_protocol)
+udp_port:add(8098, simple_protocol)
+udp_port:add(8099, simple_protocol)
+```
 
 
 
@@ -89,3 +124,8 @@ I've included some pcap files that I recorded using `tcpdump` on my own implemen
 `dump_secure.pcap` is a dump of an input transported with security.
 
 You'll notice the dissector tries to dissect both as secure; if your payload isn't secure, see the FAQ. 
+
+There is also a capture of my implementation against the autograder. The full capture is here: https://drive.google.com/file/d/1JjTDHt84fFqergS3m5BRoeKu09ka6VoP/view?usp=sharing.
+
+
+It's a bit hard to tell which test is which; to do that you'll need to selectively disable different tests in the python script.
